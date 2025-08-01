@@ -4,7 +4,7 @@ pipeline {
       inheritFrom 'build-oders'
       defaultContainer 'docker'
       namespace 'fastapi-microservices'
-      serviceAccount 'orders-deployer'
+      serviceAccount 'users-deployer'
     }
   }
 
