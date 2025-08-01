@@ -1,4 +1,3 @@
-# helm/orders/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -41,3 +40,10 @@ spec:
             periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: orders-data
+              mountPath: /app/orders_data
+      volumes:
+        - name: orders-data
+          persistentVolumeClaim:
+            claimName: orders-artifacts-pvc
