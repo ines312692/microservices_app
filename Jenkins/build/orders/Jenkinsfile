@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      inheritFrom 'build-orders'
+      inheritFrom 'build-users'
       defaultContainer 'docker'
       namespace 'fastapi-microservices'
       serviceAccount 'orders-deployer'
@@ -43,7 +43,7 @@ pipeline {
     stage('Build Image') {
       steps {
         container('docker') {
-          dir('orders') {
+          dir('orders-service') {
             sh '''
               docker build \
                 --build-arg BUILDKIT_INLINE_CACHE=1 \
