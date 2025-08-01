@@ -2,7 +2,7 @@
 replicaCount: 2
 
 image:
-  repository: ines/k-orders-service
+  repository: inestmimi123/k-orders
   pullPolicy: IfNotPresent
   tag: "latest"
 

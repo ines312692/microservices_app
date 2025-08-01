@@ -11,8 +11,8 @@ pipeline {
   environment {
     CHART_PATH = 'helm/users'
     NAMESPACE = 'fastapi-microservices'
-    RELEASE_NAME = 'users-release'
-    IMAGE_REPO = 'inestmimi123/fastapi-users'
+    RELEASE_NAME = 'orders-release'
+    IMAGE_REPO = 'inestmimi123/k-orders'
     IMAGE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
   }
 
@@ -20,7 +20,7 @@ pipeline {
     stage('Debug Infos') {
       steps {
         sh '''
-          echo "DEBUG: Deploying service 'users'"
+          echo "DEBUG: Deploying service 'orders'"
           echo "Namespace: ${NAMESPACE}"
           echo "Chart path: ${CHART_PATH}"
           echo "Image: ${IMAGE_REPO}:${IMAGE_TAG}"
@@ -31,7 +31,7 @@ pipeline {
     stage('Deploy users Service') {
       steps {
         sh '''
-           helm upgrade --install users-deploy ./helm/users  -f ./helm/users/values.yaml --namespace fastapi-microservices
+           helm upgrade --install orders-deploy ./helm/orders  -f ./helm/orders/values.yaml --namespace fastapi-microservices
         '''
       }
     }
@@ -39,10 +39,10 @@ pipeline {
 
   post {
     success {
-      echo "Déploiement réussi de users"
+      echo "Déploiement réussi de orders"
     }
     failure {
-      echo "Échec du déploiement de users"
+      echo "Échec du déploiement de orders"
     }
   }
 }
