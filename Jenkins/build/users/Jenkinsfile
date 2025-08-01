@@ -22,7 +22,7 @@ pipeline {
 
     stage('Vérification des dépendances Python') {
       steps {
-        container('docker') {
+        container('python') {
           sh '''
             cd "${WORK_DIR}"
 
@@ -57,7 +57,7 @@ pipeline {
     stage('Build de l’image Docker') {
       steps {
         container('docker') {
-          dir('users') {
+          dir('users-service') {
             sh '''
               DOCKER_BUILDKIT=1 docker build \
                 --build-arg BUILDKIT_INLINE_CACHE=1 \
