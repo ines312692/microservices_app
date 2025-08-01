@@ -1,0 +1,48 @@
+pipeline {
+  agent {
+    kubernetes {
+      inheritFrom 'deploy-users'
+      defaultContainer 'helm'
+      namespace 'fastapi-microservices'
+      serviceAccount 'users-deployer'
+    }
+  }
+
+  environment {
+    CHART_PATH = 'helm/gateway'
+    NAMESPACE = 'fastapi-microservices'
+    RELEASE_NAME = 'gateway-release'
+    IMAGE_REPO = 'inestmimi123/k-gateway'
+    IMAGE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
+  }
+
+  stages {
+    stage('Debug Infos') {
+      steps {
+        sh '''
+          echo "DEBUG: Deploying service 'gateway'"
+          echo "Namespace: ${NAMESPACE}"
+          echo "Chart path: ${CHART_PATH}"
+          echo "Image: ${IMAGE_REPO}:${IMAGE_TAG}"
+        '''
+      }
+    }
+
+    stage('Deploy gateway Service') {
+      steps {
+        sh '''
+           helm upgrade --install gateway-deploy ./helm/gateway  -f ./helm/gateway/values.yaml --namespace fastapi-microservices
+        '''
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "Déploiement réussi de orders"
+    }
+    failure {
+      echo "Échec du déploiement de orders"
+    }
+  }
+}

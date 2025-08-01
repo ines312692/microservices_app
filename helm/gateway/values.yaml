@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: ines/k-api-gateway-service
+  repository: inestmimi123/k-gateway
   pullPolicy: IfNotPresent
   tag: "latest"
 

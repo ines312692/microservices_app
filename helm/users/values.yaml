@@ -10,7 +10,7 @@ fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8002
   targetPort: 8000
 
 resources:

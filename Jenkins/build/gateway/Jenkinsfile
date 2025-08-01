@@ -4,7 +4,7 @@ pipeline {
       inheritFrom 'build-gateway'
       defaultContainer 'docker'
       namespace 'fastapi-microservices'
-      serviceAccount 'gateway-deployer'
+      serviceAccount 'users-deployer'
     }
   }
 
