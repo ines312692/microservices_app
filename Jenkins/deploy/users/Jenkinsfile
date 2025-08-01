@@ -35,15 +35,6 @@ pipeline {
         '''
       }
     }
-
-    stage('Verify') {
-      steps {
-        sh '''
-          echo "Déploiement terminé pour 'users' dans le namespace '${NAMESPACE}'"
-          kubectl get pods -n ${NAMESPACE}
-        '''
-      }
-    }
   }
 
   post {

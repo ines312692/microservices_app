@@ -1,8 +1,7 @@
-# helm/users-service/values.yaml
 replicaCount: 2
 
 image:
-  repository: ines/k-users-service
+  repository: inestmimi123/k-users
   pullPolicy: IfNotPresent
   tag: "latest"
 
@@ -32,7 +31,7 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity: []
 
 env:
   - name: DATABASE_URL
