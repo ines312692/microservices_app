@@ -35,7 +35,7 @@ pipeline {
             mkdir -p ${PY_CACHE_PATH}
             chmod -R 777 ${PY_CACHE_PATH}
 
-            pip install --no-cache-dir --cache-dir=${PY_CACHE_PATH} -r requirements.txt
+            pip install --cache-dir=${PY_CACHE_PATH} -r requirements.txt
 
             echo "Dépendances installées. Cache pip utilisé:"
             du -sh ${PY_CACHE_PATH} || true
