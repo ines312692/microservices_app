@@ -1,4 +1,4 @@
-# Microservices, API Gateway, Authentication with FastAPI, non-blocking i/o
+# Microservices
 
 - This repo is composed of a bunch of small microservices considering API gateway approach
 - Expected number of microservices was two, but considering that services
@@ -13,101 +13,45 @@
 ```
 microservices_app/
 │
-├── README.md                 # Project documentation
-├── docker-compose.yml        # Docker Compose configuration for all services
-├──helm/                  # API Gateway Service
-│   ├── gateway/                  # Gateway Service Helm chart
-│   │   ├── Chart.yaml          # Helm chart metadata
-│   │   ├── values.yaml         # Default configuration values for the chart
-│   │   ├── templates/          # Kubernetes manifests for the gateway service
-│   │   │   ├── deployment.yaml  # Deployment configuration for the gateway service
-│   │   │   ├── service.yaml     # Service configuration for the gateway service
-│   │   │   └── _helpers.tpl    # Ingress configuration for the gateway
-│   └── users/                   # Users Service Helm chart
-│       ├── Chart.yaml          # Helm chart metadata
-│       ├── values.yaml         # Default configuration values for the chart
-│       ├── templates/          # Kubernetes manifests for the users service
-│       │   ├── deployment.yaml  # Deployment configuration for the users service
-│       │   ├── service.yaml     # Service configuration for the users service
-│       │   └── _helpers.tpl    # Ingress configuration for the users service
-│       └── orders/              # Orders Service Helm chart
-│           ├── Chart.yaml      # Helm chart metadata
-│           ├── values.yaml     # Default configuration values for the chart
-│           ├── templates/      # Kubernetes manifests for the orders service
-│           │   ├── deployment.yaml  # Deployment configuration for the orders service
-│           │   ├── service.yaml     # Service configuration for the orders service
-│           │   └── _helpers.tpl    # Ingress configuration for the orders service
-│    └── microservices-app/           # Microservices Helm chart
-│        ├── Chart.yaml          # Helm chart metadata for the entire microservices app
-│        ├── values.yaml         # Default configuration values for the entire app
-│        ├── templates/          # Kubernetes manifests for the entire app
-│        │   ├── deployement.yaml     
-│        │   ├── service.yaml     
-│        │   └── _helpers.tpl    # Ingress configuration for the entire app              
-── Jenkins/ 
+├── README.md
+├── docker-compose.yml
+├── helm/
+│   ├── gateway/
+│   ├── users/
+│   ├── orders/
+│   └── microservices-app/
+├── Jenkins/
 │   ├── build/
-         ├── gateway/                  
-               ├── Jenkinsfile
-         ├── users/ 
-                ├── Jenkinsfile
-         ├── orders/  
-                ├── Jenkinsfile
-    ├── deploy/
-         ├── gateway/                 
-               ├── Jenkinsfile
-         ├── users/ 
-                ├── Jenkinsfile
-         ├── orders/  
-                ├── Jenkinsfile
-    ├── jenkins-master/
-         ├── gateway/                  
-               ├── Jenkinsfile
-         ├── users/ 
-                ├── Jenkinsfile
-         ├── orders/  
-                ├── Jenkinsfile 
-│── k8s/ 
-│   ├── namespace.yaml 
-    |──  networkpolicy.yaml    
-├
-├── gateway/                  # API Gateway Service
-│   ├── Dockerfile            # Docker configuration for gateway service
-│   ├── __init__.py
-│   ├── auth.py               # Authentication and authorization functions
-│   ├── conf.py               # Configuration settings
-│   ├── core.py               # Core functionality including route decorator
-│   ├── exceptions.py         # Custom exception handlers
-│   ├── main.py               # Main FastAPI application with route definitions
-│   ├── network.py            # Network communication utilities
-│   ├── post_processing.py    # Post-processing functions for API responses
-│   ├── requirements.txt      # Python dependencies for gateway service
-│   └── datastructures/       # Data models for request/response validation
-│       ├── orders.py         # Order-related data models
-│       └── users.py          # User-related data models
-│
-├── orders/                   # Orders Microservice
-│   ├── Dockerfile            # Docker configuration for orders service
-│   ├── __init__.py
-│   ├── init_db.py            # Database initialization script
-│   ├── main.py               # Main FastAPI application with order endpoints
-│   ├── models.py             # Database models using Tortoise ORM
-│   └── requirements.txt      # Python dependencies for orders service
-│
-└── users/                    # Users Microservice
-    ├── Dockerfile            # Docker configuration for users service
-    ├── __init__.py
-    ├── auth.py               # User authentication utilities
-    ├── datastructures.py     # User-related data models
-    ├── main.py               # Main FastAPI application with user endpoints
-    ├── requirements.txt      # Python dependencies for users service
-    ├── fake/                 # Fake database implementation
-    │   ├── __init__.py
-    │   ├── db.py             # Database operations for users
-    │   └── users.json        # JSON file storing user data
-    └── tests/                # Test modules
-        ├── __init__.py
-        ├── auth.py           # Authentication tests
-        └── fake_db.py        # Fake database tests
+│   ├── deploy/
+│   └── jenkins-master/
+├── k8s/
+│   ├── namespace.yaml
+│   └── networkpolicy.yaml
+├── gateway/
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── auth.py
+│   ├── conf.py
+│   ├── core.py
+│   ├── exceptions.py
+│   ├── network.py
+│   ├── post_processing.py
+│   ├── requirements.txt
+│   └── datastructures/
+├── orders/
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── init_db.py
+│   ├── models.py
+│   └── requirements.txt
+└── users/
+    ├── Dockerfile
+    ├── main.py
+    ├── auth.py
+    ├── datastructures.py
+    ├── requirements.txt
+    ├── fake/
+    └── tests/
 ```
 
 ## Services
@@ -214,8 +158,3 @@ microservices_app/
 - JWT token TTL can be changed under ./gateway/conf.py[settings]
 - Nginx or similar tool can be added in front of all services to leverage more benefits
 
-## Overall Diagram
-![ScreenShot](https://raw.github.com/baranbartu/microservices-with-fastapi/master/diagram.png)
-
-## Documentation Page
-![ScreenShot](https://raw.github.com/baranbartu/microservices-with-fastapi/master/docs.png)
