@@ -21,10 +21,10 @@ pipeline {
   stages {
     stage('Install Dépendances') {
       steps {
-        container('docker') {
+        container('python') {
           sh '''
             cd "${WORK_DIR}"
-            pip install --no-cache-dir --cache-dir=${PY_CACHE_PATH} -r requirements.txt
+            pip install --cache-dir=${PY_CACHE_PATH} -r requirements.txt
           '''
         }
       }

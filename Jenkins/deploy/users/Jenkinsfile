@@ -31,12 +31,7 @@ pipeline {
     stage('Deploy users Service') {
       steps {
         sh '''
-          helm upgrade --install ${RELEASE_NAME} ${CHART_PATH} \
-            --namespace ${NAMESPACE} \
-            --create-namespace \
-            --set image.repository=${IMAGE_REPO} \
-            --set image.tag=${IMAGE_TAG} \
-            --wait
+           helm upgrade --install users-deploy ./helm/users  -f ./helm/users/values.yaml --namespace fastapi-microservices
         '''
       }
     }
