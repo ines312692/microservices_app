@@ -1,0 +1,36 @@
+# helm/microservices-app/values.yaml
+global:
+  namespace: microservices-app
+  imageRegistry: ""
+  imagePullSecrets: []
+
+gateway:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: ines/k-api-gateway
+    tag: "latest"
+  service:
+    type: LoadBalancer
+    port: 8001
+  ingress:
+    enabled: true
+    hosts:
+      - host: api.microservices.local
+        paths:
+          - path: /
+            pathType: Prefix
+
+users:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: ines/k-users
+    tag: "latest"
+
+orders:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: ines/k-orders
+    tag: "latest"

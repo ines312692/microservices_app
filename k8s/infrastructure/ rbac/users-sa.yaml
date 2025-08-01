@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: users-deployer
+  namespace: fastapi-microservices
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: users-deployer-binding
+  namespace: fastapi-microservices
+subjects:
+  - kind: ServiceAccount
+    name: users-deployer
+    namespace: fastapi-microservices
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
