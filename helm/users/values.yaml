@@ -35,4 +35,4 @@ affinity: []
 
 env:
   - name: DATABASE_URL
-    value: "sqlite:///./users-service.db"
+    value: "sqlite:///./users_service.db"

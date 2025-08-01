@@ -1,4 +1,4 @@
-# helm/orders-service/values.yaml
+# helm/orders_service/values.yaml
 replicaCount: 2
 
 image:
@@ -36,4 +36,4 @@ affinity: {}
 
 env:
   - name: DATABASE_URL
-    value: "sqlite:///./orders-service.db"
+    value: "sqlite:///./orders_service.db"

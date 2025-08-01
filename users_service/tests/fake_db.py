@@ -29,7 +29,7 @@ class Test(unittest.TestCase):
                 'created_by': 1
             }
         ]
-        self.db = '/tmp/users-service.json'
+        self.db = '/tmp/users_service.json'
         dump_users(self.users, self.db)
 
     def test_get_all_users_are_identical(self):

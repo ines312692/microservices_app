@@ -15,7 +15,7 @@ pipeline {
     DOCKER_BUILDKIT = '1'
     PY_CACHE_PATH = '/mnt/py_cache'
     ARTIFACTS_PVC_PATH = '/mnt/artifacts'
-    WORK_DIR = "${WORKSPACE}/orders-service"
+    WORK_DIR = "${WORKSPACE}/orders_service"
   }
 
   stages {

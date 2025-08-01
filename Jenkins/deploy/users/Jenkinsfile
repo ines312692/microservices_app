@@ -12,7 +12,7 @@ pipeline {
     CHART_PATH = 'helm/users'
     NAMESPACE = 'fastapi-microservices'
     RELEASE_NAME = 'users-release'
-    IMAGE_REPO = 'inestmimi123/fastapi-users'
+    IMAGE_REPO = 'inestmimi123/k-users'
     IMAGE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
   }
 
