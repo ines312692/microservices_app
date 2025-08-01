@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      inheritFrom 'deploy-oders'
+      inheritFrom 'deploy-users'
       defaultContainer 'helm'
       namespace 'fastapi-microservices'
       serviceAccount 'users-deployer'
