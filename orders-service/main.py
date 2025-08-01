@@ -28,7 +28,7 @@ async def create_user(order: OrderIn_Pydantic,
 
 register_tortoise(
     app,
-    db_url='sqlite://:memory:',
+    db_url='sqlite:///app/orders_data/db.sqlite3',
     modules={'models': ['models']},
     generate_schemas=True,
     add_exception_handlers=True,

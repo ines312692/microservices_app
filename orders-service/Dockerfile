@@ -1,6 +1,7 @@
 FROM python:3.7.7
 
 WORKDIR /app
+RUN mkdir -p /app/orders_data
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONBUFFERED 1
