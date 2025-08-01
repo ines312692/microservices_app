@@ -3,7 +3,7 @@ import json
 from gateway.datastructures.users import  UserUpdateForm
 from users.datastructures import UserInDb
 
-users_file = 'fake/users.json'
+users_file = 'fake/users-service.json'
 
 
 def get_all_users(db: str = users_file):

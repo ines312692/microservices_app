@@ -88,7 +88,7 @@ async def delete_user(user_id: int, request: Request, response: Response,
     if user_id in PROTECTED_USER_IDS:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail='You are not allowed to delete protected users.',
+            detail='You are not allowed to delete protected users-service.',
         )
 
     user_in_db = get_user_by_id(user_id)

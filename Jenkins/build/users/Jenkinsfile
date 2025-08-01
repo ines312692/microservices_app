@@ -1,0 +1,127 @@
+pipeline {
+  agent {
+    kubernetes {
+      inheritFrom 'build-users'
+      defaultContainer 'docker'
+      namespace 'fastapi-microservices'
+      serviceAccount 'users-deployer'
+    }
+  }
+
+  environment {
+    DOCKERHUB_USERNAME = 'inestmimi123'
+    DOCKERHUB_IMAGE = 'k-users'
+    IMAGE_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
+    DOCKER_BUILDKIT = '1'
+    PY_CACHE_PATH = '/mnt/py_cache'
+    ARTIFACTS_PVC_PATH = '/mnt/artifacts'
+    WORK_DIR = "${WORKSPACE}/users"
+  }
+
+  stages {
+
+    stage('Vérification des dépendances Python') {
+      steps {
+        container('docker') {
+          sh '''
+            cd "${WORK_DIR}"
+
+            if [ ! -f "requirements.txt" ]; then
+              echo "requirements.txt introuvable"
+              exit 1
+            fi
+
+            echo "Installation des dépendances Python avec cache pip partagé"
+            mkdir -p ${PY_CACHE_PATH}
+            chmod -R 777 ${PY_CACHE_PATH}
+
+            pip install --no-cache-dir --cache-dir=${PY_CACHE_PATH} -r requirements.txt
+
+            echo "Dépendances installées. Cache pip utilisé:"
+            du -sh ${PY_CACHE_PATH} || true
+          '''
+        }
+      }
+    }
+
+    stage('Docker Login') {
+      steps {
+        container('docker') {
+          withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin'
+          }
+        }
+      }
+    }
+
+    stage('Build de l’image Docker') {
+      steps {
+        container('docker') {
+          dir('users') {
+            sh '''
+              DOCKER_BUILDKIT=1 docker build \
+                --build-arg BUILDKIT_INLINE_CACHE=1 \
+                -t ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:${IMAGE_TAG} \
+                -t ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:latest .
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Push DockerHub') {
+      steps {
+        container('docker') {
+          sh '''
+            docker push ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:${IMAGE_TAG}
+            docker push ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:latest
+          '''
+        }
+      }
+    }
+
+    stage('Sauvegarde des Artifacts') {
+      steps {
+        container('docker') {
+          sh '''
+            mkdir -p ${ARTIFACTS_PVC_PATH}/users-${BUILD_NUMBER}
+            cp -r ${WORK_DIR}/* ${ARTIFACTS_PVC_PATH}/users-${BUILD_NUMBER}/ || echo "Aucun fichier à sauvegarder"
+            echo "Artifacts sauvegardés dans ${ARTIFACTS_PVC_PATH}/users-${BUILD_NUMBER}/"
+          '''
+        }
+      }
+    }
+
+    stage('Nettoyage Docker') {
+      steps {
+        container('docker') {
+          sh 'docker system prune -f --filter "until=24h" || true'
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "=== FIN DU PIPELINE USERS ==="
+      container('docker') {
+        sh '''
+          echo "Résumé de Build"
+          echo "Build Number: ${BUILD_NUMBER}"
+          echo "Git Commit: ${GIT_COMMIT}"
+          echo "Image Tag: ${IMAGE_TAG}"
+          echo "Namespace: fastapi-microservices"
+        '''
+      }
+    }
+    success {
+      echo "L'image Docker du microservice users a été construite et poussée avec succès !"
+    }
+    failure {
+      echo "Échec du pipeline de build du microservice users."
+    }
+    cleanup {
+      sh 'docker logout || true'
+    }
+  }
+}

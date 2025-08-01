@@ -1,8 +1,8 @@
-# helm/users/values.yaml
+# helm/users-service/values.yaml
 replicaCount: 2
 
 image:
-  repository: ines/k-users
+  repository: ines/k-users-service
   pullPolicy: IfNotPresent
   tag: "latest"
 
@@ -36,4 +36,4 @@ affinity: {}
 
 env:
   - name: DATABASE_URL
-    value: "sqlite:///./users.db"
+    value: "sqlite:///./users-service.db"

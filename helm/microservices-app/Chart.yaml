@@ -7,12 +7,12 @@ version: 0.1.0
 appVersion: "1.0.0"
 
 dependencies:
-  - name: gateway
+  - name: gateway-service
     version: "0.1.0"
     repository: "file://../gateway"
-  - name: users
+  - name: users-service
     version: "0.1.0"
     repository: "file://../users"
-  - name: orders
+  - name: orders-service
     version: "0.1.0"
     repository: "file://../orders"

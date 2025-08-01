@@ -5,36 +5,36 @@ services:
         image: ines/k-api-gateway:latest
         command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
         build:
-            context: ./gateway
+            context: gateway-service
             dockerfile: Dockerfile
         env_file:
-            - ./gateway/.env
+            - gateway-service/.env
         ports:
           - 8001:8000
         depends_on:
           - users
           - orders
         volumes:
-          - ./gateway:/app
+          - ./gateway-service:/app
 
     users:
         image: ines/k-users:latest
         command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
         build:
-            context: ./users
+            context: users-service
             dockerfile: Dockerfile
         env_file:
-            - ./users/.env
+            - users-service/.env
         volumes:
-          - ./users:/app
+          - ./users-service:/app
 
     orders:
         image: ines/k-orders:latest
         command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
         build:
-            context: ./orders
+            context: orders-service
             dockerfile: Dockerfile
         env_file:
-            - ./orders/.env
+            - orders-service/.env
         volumes:
-          - ./orders:/app
+          - ./orders-service:/app

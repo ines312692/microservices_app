@@ -1,8 +1,8 @@
-# helm/orders/values.yaml
+# helm/orders-service/values.yaml
 replicaCount: 2
 
 image:
-  repository: ines/k-orders
+  repository: ines/k-orders-service
   pullPolicy: IfNotPresent
   tag: "latest"
 
@@ -36,4 +36,4 @@ affinity: {}
 
 env:
   - name: DATABASE_URL
-    value: "sqlite:///./orders.db"
+    value: "sqlite:///./orders-service.db"

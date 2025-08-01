@@ -11,7 +11,7 @@ metadata:
   namespace: fastapi-microservices
 subjects:
   - kind: ServiceAccount
-    name: users-deployer
+    name: users-service-deployer
     namespace: fastapi-microservices
 roleRef:
   kind: ClusterRole

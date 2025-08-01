@@ -1,0 +1,100 @@
+pipeline {
+  agent {
+    kubernetes {
+      inheritFrom 'build-orders'
+      defaultContainer 'docker'
+      namespace 'fastapi-microservices'
+      serviceAccount 'orders-deployer'
+    }
+  }
+
+  environment {
+    DOCKERHUB_USERNAME = 'inestmimi123'
+    DOCKERHUB_IMAGE = 'k-orders'
+    IMAGE_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT.take(7)}"
+    DOCKER_BUILDKIT = '1'
+    PY_CACHE_PATH = '/mnt/py_cache'
+    ARTIFACTS_PVC_PATH = '/mnt/artifacts'
+    WORK_DIR = "${WORKSPACE}/orders"
+  }
+
+  stages {
+    stage('Install Dépendances') {
+      steps {
+        container('docker') {
+          sh '''
+            cd "${WORK_DIR}"
+            pip install --no-cache-dir --cache-dir=${PY_CACHE_PATH} -r requirements.txt
+          '''
+        }
+      }
+    }
+
+    stage('Docker Login') {
+      steps {
+        container('docker') {
+          withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin'
+          }
+        }
+      }
+    }
+
+    stage('Build Image') {
+      steps {
+        container('docker') {
+          dir('orders') {
+            sh '''
+              docker build \
+                --build-arg BUILDKIT_INLINE_CACHE=1 \
+                -t ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:${IMAGE_TAG} \
+                -t ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:latest .
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Push Image') {
+      steps {
+        container('docker') {
+          sh '''
+            docker push ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:${IMAGE_TAG}
+            docker push ${DOCKERHUB_USERNAME}/${DOCKERHUB_IMAGE}:latest
+          '''
+        }
+      }
+    }
+
+    stage('Save Artifacts') {
+      steps {
+        container('docker') {
+          sh '''
+            mkdir -p ${ARTIFACTS_PVC_PATH}/orders-${BUILD_NUMBER}
+            cp -r ${WORK_DIR}/* ${ARTIFACTS_PVC_PATH}/orders-${BUILD_NUMBER}/ || true
+          '''
+        }
+      }
+    }
+
+    stage('Nettoyage') {
+      steps {
+        container('docker') {
+          sh 'docker system prune -f || true'
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "Build OK: orders"
+    }
+    failure {
+      echo "Build échoué: orders"
+    }
+    cleanup {
+      sh 'docker logout || true'
+    }
+  }
+}
