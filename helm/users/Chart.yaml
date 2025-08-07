@@ -1,4 +1,4 @@
-# helm/users-service/Chart.yaml
+# helm/users_service/Chart.yaml
 apiVersion: v2
 name: users
 description: Users microservice Helm chart

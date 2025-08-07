@@ -8,7 +8,7 @@ gateway:
   enabled: true
   replicaCount: 2
   image:
-    repository: ines/k-api-gateway-service
+    repository: ines/k-api-gateway_service
     tag: "latest"
   service:
     type: LoadBalancer
@@ -25,12 +25,12 @@ users:
   enabled: true
   replicaCount: 2
   image:
-    repository: ines/k-users-service
+    repository: ines/k-users_service
     tag: "latest"
 
 orders:
   enabled: true
   replicaCount: 2
   image:
-    repository: ines/k-orders-service
+    repository: ines/k-orders_service
     tag: "latest"

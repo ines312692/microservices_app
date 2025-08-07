@@ -1,8 +1,8 @@
-# helm/orders-service/values.yaml
+# helm/orders_service/values.yaml
 replicaCount: 2
 
 image:
-  repository: ines/k-orders-service
+  repository: inestmimi123/k-orders
   pullPolicy: IfNotPresent
   tag: "latest"
 
@@ -11,7 +11,7 @@ fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8003
   targetPort: 8000
 
 resources:
@@ -36,4 +36,4 @@ affinity: {}
 
 env:
   - name: DATABASE_URL
-    value: "sqlite:///./orders-service.db"
+    value: "sqlite:///./orders_service.db"

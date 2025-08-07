@@ -1,10 +1,10 @@
 pipeline {
   agent {
     kubernetes {
-      inheritFrom 'build-orders'
+      inheritFrom 'build-oders'
       defaultContainer 'docker'
       namespace 'fastapi-microservices'
-      serviceAccount 'orders-deployer'
+      serviceAccount 'users-deployer'
     }
   }
 
@@ -15,16 +15,16 @@ pipeline {
     DOCKER_BUILDKIT = '1'
     PY_CACHE_PATH = '/mnt/py_cache'
     ARTIFACTS_PVC_PATH = '/mnt/artifacts'
-    WORK_DIR = "${WORKSPACE}/orders"
+    WORK_DIR = "${WORKSPACE}/orders_service"
   }
 
   stages {
     stage('Install Dépendances') {
       steps {
-        container('docker') {
+        container('python') {
           sh '''
             cd "${WORK_DIR}"
-            pip install --no-cache-dir --cache-dir=${PY_CACHE_PATH} -r requirements.txt
+            pip install --cache-dir=${PY_CACHE_PATH} -r requirements.txt
           '''
         }
       }
@@ -43,7 +43,7 @@ pipeline {
     stage('Build Image') {
       steps {
         container('docker') {
-          dir('orders') {
+          dir('orders-service') {
             sh '''
               docker build \
                 --build-arg BUILDKIT_INLINE_CACHE=1 \

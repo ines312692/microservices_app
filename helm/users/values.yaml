@@ -1,8 +1,7 @@
-# helm/users-service/values.yaml
 replicaCount: 2
 
 image:
-  repository: ines/k-users-service
+  repository: inestmimi123/k-users
   pullPolicy: IfNotPresent
   tag: "latest"
 
@@ -11,7 +10,7 @@ fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8002
   targetPort: 8000
 
 resources:
@@ -32,8 +31,8 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity: []
 
 env:
   - name: DATABASE_URL
-    value: "sqlite:///./users-service.db"
+    value: "sqlite:///./users_service.db"

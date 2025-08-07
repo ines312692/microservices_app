@@ -1,0 +1,48 @@
+pipeline {
+  agent {
+    kubernetes {
+      inheritFrom 'deploy-users'
+      defaultContainer 'helm'
+      namespace 'fastapi-microservices'
+      serviceAccount 'users-deployer'
+    }
+  }
+
+  environment {
+    CHART_PATH = 'helm/users'
+    NAMESPACE = 'fastapi-microservices'
+    RELEASE_NAME = 'users-release'
+    IMAGE_REPO = 'inestmimi123/k-users'
+    IMAGE_TAG = "${BUILD_NUMBER}-${GIT_COMMIT.take(7)}"
+  }
+
+  stages {
+    stage('Debug Infos') {
+      steps {
+        sh '''
+          echo "DEBUG: Deploying service 'users'"
+          echo "Namespace: ${NAMESPACE}"
+          echo "Chart path: ${CHART_PATH}"
+          echo "Image: ${IMAGE_REPO}:${IMAGE_TAG}"
+        '''
+      }
+    }
+
+    stage('Deploy users Service') {
+      steps {
+        sh '''
+           helm upgrade --install users-deploy ./helm/users  -f ./helm/users/values.yaml --namespace fastapi-microservices
+        '''
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "Déploiement réussi de users"
+    }
+    failure {
+      echo "Échec du déploiement de users"
+    }
+  }
+}

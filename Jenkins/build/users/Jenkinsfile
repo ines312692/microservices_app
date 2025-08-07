@@ -15,14 +15,14 @@ pipeline {
     DOCKER_BUILDKIT = '1'
     PY_CACHE_PATH = '/mnt/py_cache'
     ARTIFACTS_PVC_PATH = '/mnt/artifacts'
-    WORK_DIR = "${WORKSPACE}/users"
+    WORK_DIR = "${WORKSPACE}/users_service"
   }
 
   stages {
 
     stage('Vérification des dépendances Python') {
       steps {
-        container('docker') {
+        container('python') {
           sh '''
             cd "${WORK_DIR}"
 
@@ -35,7 +35,7 @@ pipeline {
             mkdir -p ${PY_CACHE_PATH}
             chmod -R 777 ${PY_CACHE_PATH}
 
-            pip install --no-cache-dir --cache-dir=${PY_CACHE_PATH} -r requirements.txt
+            pip install --cache-dir=${PY_CACHE_PATH} -r requirements.txt
 
             echo "Dépendances installées. Cache pip utilisé:"
             du -sh ${PY_CACHE_PATH} || true
@@ -57,7 +57,7 @@ pipeline {
     stage('Build de l’image Docker') {
       steps {
         container('docker') {
-          dir('users') {
+          dir('users-service') {
             sh '''
               DOCKER_BUILDKIT=1 docker build \
                 --build-arg BUILDKIT_INLINE_CACHE=1 \
