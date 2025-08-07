@@ -2,7 +2,7 @@
     {
         "id": 1,
         "username": "admin",
-        "email": "admin@baran.com",
+        "email": "admin@.com",
         "full_name": "Admin Admin",
         "user_type": "admin",
         "hashed_password": "$2b$12$16kNu5IW80k1Tw7xz2H3iOCsz0.oMZ7q5OSGa/OIfOae0WGFe8aI2",
@@ -10,9 +10,9 @@
     },
     {
         "id": 2,
-        "username": "baranbartu",
-        "email": "baran@baran.com",
-        "full_name": "Baran Bartu Demirci",
+        "username": "ines",
+        "email": "ines.com",
+        "full_name": "ines",
         "user_type": "default",
         "hashed_password": "$2b$12$o5FUxT.lT6PZXU8KHPz4tug1yGI.gXuyZNT8VWbKBNaAEP10/yI.W",
         "created_by": 1
