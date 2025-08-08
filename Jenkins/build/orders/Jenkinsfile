@@ -52,7 +52,6 @@ pipeline {
       }
     }
 
-
     stage('Build Image') {
       steps {
         container('docker') {
