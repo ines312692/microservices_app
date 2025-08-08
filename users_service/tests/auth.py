@@ -1,5 +1,5 @@
 import unittest
-from users.auth import get_password_hash, verify_password
+from users_service.auth import get_password_hash, verify_password
 
 
 class Test(unittest.TestCase):

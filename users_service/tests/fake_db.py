@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from users.fake.db import dump_users, get_all_users, get_user_by_id
+from users_service.fake.db import dump_users, get_all_users, get_user_by_id
 
 
 class Test(unittest.TestCase):
@@ -17,17 +17,8 @@ class Test(unittest.TestCase):
                 'hashed_password': ('$2b$12$16kNu5IW80k1Tw7xz2H3iOCsz0'
                                     '.oMZ7q5OSGa/OIfOae0WGFe8aI2'),
                 'created_by': 1
-            },
-            {
-                'id': 2,
-                'username': 'baranbartu',
-                'email': 'baran@baran.com',
-                'full_name': 'Baran Bartu Demirci',
-                'user_type': 'baran',
-                'hashed_password': ('$2b$12$o5FUxT.lT6PZXU8KHP'
-                                    'z4tug1yGI.gXuyZNT8VWbKBNaAEP10/yI.W'),
-                'created_by': 1
             }
+
         ]
         self.db = '/tmp/users_service.json'
         dump_users(self.users, self.db)

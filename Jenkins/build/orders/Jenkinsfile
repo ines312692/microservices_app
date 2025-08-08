@@ -40,6 +40,19 @@ pipeline {
       }
     }
 
+    stage('Test') {
+      steps {
+        container('python') {
+          dir("${WORK_DIR}") {
+            sh '''
+              pytest tests --maxfail=1 --disable-warnings -q
+            '''
+          }
+        }
+      }
+    }
+
+
     stage('Build Image') {
       steps {
         container('docker') {
