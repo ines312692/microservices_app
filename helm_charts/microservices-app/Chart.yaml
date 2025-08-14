@@ -1,4 +1,4 @@
-# helm/microservices-app/Chart.yaml
+# helm_charts/microservices-app/Chart.yaml
 apiVersion: v2
 name: microservices-app
 description: Complete microservices application Helm chart

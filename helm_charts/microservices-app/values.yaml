@@ -1,4 +1,4 @@
-# helm/microservices-app/values.yaml
+# helm_charts/microservices-app/values.yaml
 global:
   namespace: microservices-app
   imageRegistry: ""

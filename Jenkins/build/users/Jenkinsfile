@@ -90,18 +90,6 @@ pipeline {
         }
       }
     }
-
-    stage('Sauvegarde des Artifacts') {
-      steps {
-        container('docker') {
-          sh '''
-            mkdir -p ${ARTIFACTS_PVC_PATH}/users-${BUILD_NUMBER}
-            cp -r ${WORK_DIR}/* ${ARTIFACTS_PVC_PATH}/users-${BUILD_NUMBER}/ || echo "Aucun fichier à sauvegarder"
-            echo "Artifacts sauvegardés dans ${ARTIFACTS_PVC_PATH}/users-${BUILD_NUMBER}/"
-          '''
-        }
-      }
-    }
   }
 
   post {

@@ -108,9 +108,9 @@ The Orders Service handles:
 
 2. Deploy the services using Helm:
    ```bash
-   helm upgrade --install users-deploy ./helm/users -f ./helm/users/values.yaml --namespace fastapi-microservices
-   helm upgrade --install orders-deploy ./helm/orders -f ./helm/orders/values.yaml --namespace fastapi-microservices
-   helm upgrade --install gateway-deploy ./helm/gateway -f ./helm/gateway/values.yaml --namespace fastapi-microservices
+   helm_charts upgrade --install users-deploy ./helm_charts/users -f ./helm_charts/users/values.yaml --namespace fastapi-microservices
+   helm_charts upgrade --install orders-deploy ./helm_charts/orders -f ./helm_charts/orders/values.yaml --namespace fastapi-microservices
+   helm_charts upgrade --install gateway-deploy ./helm_charts/gateway -f ./helm_charts/gateway/values.yaml --namespace fastapi-microservices
    ```
 
 ### CI/CD Pipeline
@@ -166,7 +166,7 @@ microservices_app/
 │
 ├── README.md
 ├── docker-compose.yml
-├── helm/                  # Helm charts for Kubernetes deployment
+├── helm_charts/                  # Helm charts for Kubernetes deployment
 │   ├── gateway/
 │   ├── users/
 │   ├── orders/

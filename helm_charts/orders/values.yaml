@@ -1,4 +1,4 @@
-# helm/orders_service/values.yaml
+# helm_charts/orders_service/values.yaml
 replicaCount: 2
 
 image:
