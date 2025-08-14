@@ -88,14 +88,6 @@ pipeline {
         }
       }
     }
-
-    stage('Nettoyage') {
-      steps {
-        container('docker') {
-          sh 'docker system prune -f || true'
-        }
-      }
-    }
   }
 
   post {
