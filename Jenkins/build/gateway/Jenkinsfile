@@ -66,16 +66,7 @@ pipeline {
       }
     }
 
-    stage('Save Artifacts') {
-      steps {
-        container('docker') {
-          sh '''
-            mkdir -p ${ARTIFACTS_PVC_PATH}/gateway-${BUILD_NUMBER}
-            cp -r ${WORK_DIR}/* ${ARTIFACTS_PVC_PATH}/gateway-${BUILD_NUMBER}/ || true
-          '''
-        }
-      }
-    }
+
   }
 
   post {

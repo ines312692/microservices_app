@@ -1,0 +1,53 @@
+pipeline {
+  agent {
+    kubernetes {
+      inheritFrom 'build-master'
+      defaultContainer 'docker'
+      namespace 'fastapi-microservices'
+      serviceAccount 'master-deployer'
+    }
+  }
+
+  environment {
+    DOCKERHUB_USERNAME = 'inestmimi123'
+  }
+
+  stages {
+    stage('Build All Microservices in Parallel') {
+      parallel {
+        stage('Build Gateway') {
+          steps {
+            build job: 'gateway-pipeline', parameters: [
+              string(name: 'DOCKERHUB_USERNAME', value: "${DOCKERHUB_USERNAME}")
+            ]
+          }
+        }
+
+        stage('Build Orders') {
+          steps {
+            build job: 'orders-pipeline', parameters: [
+              string(name: 'DOCKERHUB_USERNAME', value: "${DOCKERHUB_USERNAME}")
+            ]
+          }
+        }
+
+        stage('Build Users') {
+          steps {
+            build job: 'users-pipeline', parameters: [
+              string(name: 'DOCKERHUB_USERNAME', value: "${DOCKERHUB_USERNAME}")
+            ]
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo " Tous les microservices ont été buildés avec succès !"
+    }
+    failure {
+      echo "Au moins un build a échoué."
+    }
+  }
+}

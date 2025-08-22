@@ -39,7 +39,6 @@ pipeline {
         }
       }
     }
-
     stage('Test') {
       steps {
         container('python') {
@@ -51,6 +50,7 @@ pipeline {
         }
       }
     }
+
 
     stage('Build Image') {
       steps {
@@ -66,6 +66,7 @@ pipeline {
         }
       }
     }
+
 
     stage('Push Image') {
       steps {
